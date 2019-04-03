@@ -4,6 +4,24 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
+plugins = [
+  new HtmlWebpackPlugin({
+    filename: 'index.html',
+    template: path.join(__dirname, 'src/index.html')
+  }),
+  new ExtractTextPlugin('style.css')  
+];
+
+if (process.env.NODE_ENV.toString().trim() === 'prod') {  
+  plugins.push(new webpack.DefinePlugin({
+    "process.env": {
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+    }
+  }));
+  plugins.push(new webpack.optimize.UglifyJsPlugin());
+}
+
+
 module.exports = {
   entry: path.join(__dirname, 'src/index.jsx'),
   output: {
@@ -13,14 +31,7 @@ module.exports = {
   resolve: {
     extensions: [".js",".jsx"]
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.join(__dirname, 'src/index.html')
-    }),
-    new ExtractTextPlugin('style.css'),
-    new UglifyJSPlugin()
-  ],
+  plugins: plugins,
   module: {
     rules: [
       {
