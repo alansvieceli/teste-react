@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "set NODE_ENV=dev && node_modules\\.bin\\webpack-dev-server",
+    "start": "set NODE_ENV=dev && node_modules\\.bin\\webpack-dev-server --host 172.23.138.88",
     "build": "set NODE_ENV=prod && node_modules\\.bin\\webpack"
   },
   "author": "Alan Vieceli <alansvieceli@gmail.com>",
