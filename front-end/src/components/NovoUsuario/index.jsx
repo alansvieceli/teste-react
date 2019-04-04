@@ -2,16 +2,15 @@ import React from 'react'
 import Label from '../Label'
 import Input from '../Input'
 import GenderSelector from '../GenderSelector'
+import Usuario from '../../models/Usuario'
+import Button from '../Button'
 
 class NovoUsuario extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      usuario: {
-        nome: '',
-        genero: ''
-      },
+      usuario: new Usuario(),
       validacao:{
         nomeInvalido: false,
         generoInvalido: false
@@ -31,10 +30,23 @@ class NovoUsuario extends React.Component {
     e.preventDefault();
     let usuario = this.state.usuario;
     usuario.genero = genero;
+  
     this.setState({
       usuario: usuario
+    });  
+  
+  }
+
+  validar(e) {
+    e.preventDefault();
+    let usuario = this.state.usuario;
+    let validacao = this.state.validacao;
+    validacao.nomeInvalido = ! usuario.validarNome();
+    validacao.generoInvalido = ! usuario.validarGenero();
+    this.setState({
+      validacao: validacao
     });
-}
+  }
 
   render() {
     return (
@@ -57,6 +69,7 @@ class NovoUsuario extends React.Component {
             genero={this.state.usuario.genero}
             atualizarGenero={this.atualizarGenero.bind(this)}
           />
+          <Button principal texto="Próximo" onClick={this.validar.bind(this)} />
         </form>
       </div>
     );
